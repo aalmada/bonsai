@@ -20,7 +20,7 @@ jobs:
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.2
       with:
-        nuget-version: '2.4.8'
+        nuget-version: 'latest'
     - name: Restore NuGet Packages
       run: nuget restore Bonsai.sln
     - name: Build solution

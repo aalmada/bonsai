@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.ComponentModel;
-using Microsoft.Scripting.Hosting;
 using Bonsai.Expressions;
 using System.Reactive.Linq;
 using System.Linq.Expressions;
 using IronPython.Runtime;
-using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 
 namespace Bonsai.Scripting
@@ -16,6 +13,7 @@ namespace Bonsai.Scripting
     [DefaultProperty("Script")]
     [WorkflowElementCategory(ElementCategory.Source)]
     [TypeDescriptionProvider(typeof(PythonSourceTypeDescriptionProvider))]
+    [Description("A Python script used to generate an observable sequence of values.")]
     public class PythonSource : ZeroArgumentExpressionBuilder, IScriptingElement
     {
         public PythonSource()

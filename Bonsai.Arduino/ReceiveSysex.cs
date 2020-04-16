@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bonsai.Arduino
 {
@@ -22,9 +18,9 @@ namespace Bonsai.Arduino
 
         public override IObservable<byte[]> Generate()
         {
-            return Observable.Create<byte[]>(observer =>
+            return Observable.Create<byte[]>(async observer =>
             {
-                var connection = ArduinoManager.ReserveConnection(PortName);
+                var connection = await ArduinoManager.ReserveConnectionAsync(PortName);
                 EventHandler<SysexReceivedEventArgs> sysexReceived;
                 sysexReceived = (sender, e) =>
                 {

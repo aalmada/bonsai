@@ -6,14 +6,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bonsai.Scripting
 {
     [DefaultProperty("Expression")]
     [WorkflowElementCategory(ElementCategory.Transform)]
     [TypeDescriptionProvider(typeof(ExpressionTransformTypeDescriptionProvider))]
+    [Description("An expression script used to transform individual values of the input sequence.")]
     public class ExpressionTransform : SingleArgumentExpressionBuilder, IScriptingElement
     {
         static readonly MethodInfo selectMethod = typeof(Observable).GetMethods()

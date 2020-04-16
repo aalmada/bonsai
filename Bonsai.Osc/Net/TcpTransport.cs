@@ -1,22 +1,18 @@
 ﻿using Bonsai.Osc.IO;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Bonsai.Osc.Net
 {
     class TcpTransport : ITransport
     {
         NetworkStream stream;
-        IObservable<Message> messageReceived;
+        readonly IObservable<Message> messageReceived;
 
         public TcpTransport(TcpClient client)
         {
@@ -32,7 +28,8 @@ namespace Bonsai.Osc.Net
                         try
                         {
                             var bytesRead = stream.Read(sizeBuffer, 0, sizeBuffer.Length);
-                            if (bytesRead < sizeBuffer.Length)
+                            if (bytesRead == 0) observer.OnCompleted();
+                            else if (bytesRead < sizeBuffer.Length)
                             {
                                 observer.OnError(new InvalidOperationException("Unexpected end of stream."));
                             }
@@ -47,7 +44,7 @@ namespace Bonsai.Osc.Net
                                 }
                                 else
                                 {
-                                    dispatcher.ProcessPacket(packet);
+                                    dispatcher.Process(packet);
                                     recurse();
                                 }
                             }

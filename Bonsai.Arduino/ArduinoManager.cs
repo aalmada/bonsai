@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
 using System.Reactive.Disposables;
+using System.Threading.Tasks;
 
 namespace Bonsai.Arduino
 {
@@ -18,6 +18,11 @@ namespace Bonsai.Arduino
         public static ArduinoDisposable ReserveConnection(string portName)
         {
             return ReserveConnection(portName, ArduinoConfiguration.Default);
+        }
+
+        public static async Task<ArduinoDisposable> ReserveConnectionAsync(string portName)
+        {
+            return await Task.Run(() => ReserveConnection(portName, ArduinoConfiguration.Default));
         }
 
         internal static ArduinoDisposable ReserveConnection(string portName, ArduinoConfiguration arduinoConfiguration)

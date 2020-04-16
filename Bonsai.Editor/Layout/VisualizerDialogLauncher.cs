@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.ComponentModel.Design;
 using Bonsai.Expressions;
 using System.Reactive.Linq;
-using System.Drawing;
 using System.Windows.Forms;
-using Bonsai.Dag;
 using Bonsai.Editor;
 using Bonsai.Editor.GraphView;
 
@@ -159,6 +155,20 @@ namespace Bonsai.Design
             }
         }
 
+        static Type GetMashupVisualizerType(Type dialogMashupType, Type visualizerType, IWorkflowEditorService editorService)
+        {
+            var mashupVisualizerType = default(Type);
+            while (dialogMashupType != null && dialogMashupType != typeof(DialogMashupVisualizer))
+            {
+                var mashup = typeof(VisualizerMashup<,>).MakeGenericType(dialogMashupType, visualizerType);
+                mashupVisualizerType = editorService.GetTypeVisualizers(mashup).SingleOrDefault();
+                if (mashupVisualizerType != null) break;
+                dialogMashupType = dialogMashupType.BaseType;
+            }
+
+            return mashupVisualizerType;
+        }
+
         public void CreateMashup(GraphNode graphNode, IWorkflowEditorService editorService)
         {
             var dialogMashup = visualizer.Value as DialogMashupVisualizer;
@@ -167,15 +177,7 @@ namespace Bonsai.Design
             {
                 var dialogMashupType = dialogMashup.GetType();
                 var visualizerType = visualizerDialog.visualizer.Value.GetType();
-                var mashupVisualizer = default(Type);
-                while (dialogMashupType != null && dialogMashupType != typeof(DialogMashupVisualizer))
-                {
-                    var mashup = typeof(VisualizerMashup<,>).MakeGenericType(dialogMashupType, visualizerType);
-                    mashupVisualizer = editorService.GetTypeVisualizers(mashup).SingleOrDefault();
-                    if (mashupVisualizer != null) break;
-                    dialogMashupType = dialogMashupType.BaseType;
-                }
-
+                var mashupVisualizer = GetMashupVisualizerType(dialogMashupType, visualizerType, editorService);
                 if (mashupVisualizer != null)
                 {
                     UnloadMashups();
@@ -208,13 +210,13 @@ namespace Bonsai.Design
                 var visualizerDialog = workflowGraphView.GetVisualizerDialogLauncher(graphViewSource);
                 if (visualizerDialog != null)
                 {
-                    var visualizerType = visualizer.Value.GetType();
-                    if (visualizerType.IsSubclassOf(typeof(DialogMashupVisualizer)))
+                    var dialogMashupType = visualizer.Value.GetType();
+                    if (dialogMashupType.IsSubclassOf(typeof(DialogMashupVisualizer)))
                     {
+                        var visualizerType = visualizerDialog.Visualizer.Value.GetType();
                         var editorService = (IWorkflowEditorService)visualizerContext.GetService(typeof(IWorkflowEditorService));
-                        var mashup = typeof(VisualizerMashup<,>).MakeGenericType(visualizer.Value.GetType(), visualizerDialog.Visualizer.Value.GetType());
-                        var mashupVisualizer = editorService.GetTypeVisualizers(mashup);
-                        if (mashupVisualizer != null)
+                        var mashupVisualizerType = GetMashupVisualizerType(dialogMashupType, visualizerType, editorService);
+                        if (mashupVisualizerType != null)
                         {
                             e.Effect = DragDropEffects.Link;
                         }

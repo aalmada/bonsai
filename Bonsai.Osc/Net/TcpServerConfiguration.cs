@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bonsai.Osc.Net
 {
@@ -14,13 +9,13 @@ namespace Bonsai.Osc.Net
 
         public bool NoDelay { get; set; }
 
+        public bool AllowNatTraversal { get; set; }
+
         internal override ITransport CreateTransport()
         {
             var listener = new TcpListener(IPAddress.Loopback, Port);
-            listener.Start();
-            var tcpClient = listener.AcceptTcpClient();
-            tcpClient.NoDelay = NoDelay;
-            return new TcpTransport(tcpClient);
+            listener.AllowNatTraversal(AllowNatTraversal);
+            return new TcpServerTransport(listener, NoDelay);
         }
     }
 }

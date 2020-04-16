@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCV.Net;
-using System.Threading.Tasks;
 using System.IO;
 using Bonsai.IO;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
 
 namespace Bonsai.Dsp
 {
     [Description("Writes the incoming signal into the specified raw binary output stream.")]
-    public class MatrixWriter : StreamSink<byte[], BinaryWriter>
+    public class MatrixWriter : StreamSink<ArraySegment<byte>, BinaryWriter>
     {
         public MatrixWriter()
         {
@@ -27,14 +22,19 @@ namespace Bonsai.Dsp
             return new BinaryWriter(stream);
         }
 
-        protected override void Write(BinaryWriter writer, byte[] input)
+        protected override void Write(BinaryWriter writer, ArraySegment<byte> input)
         {
-            writer.Write(input);
+            writer.Write(input.Array, input.Offset, input.Count);
+        }
+
+        public IObservable<byte[]> Process(IObservable<byte[]> source)
+        {
+            return Process(source, input => new ArraySegment<byte>(input));
         }
 
         public IObservable<Mat> Process(IObservable<Mat> source)
         {
-            return Process(source, input => ArrHelper.ToArray(input, Layout));
+            return Process(source, input => new ArraySegment<byte>(ArrHelper.ToArray(input, Layout)));
         }
     }
 }

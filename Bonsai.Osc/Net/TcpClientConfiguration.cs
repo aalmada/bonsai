@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net.Sockets;
 
 namespace Bonsai.Osc.Net
 {
@@ -19,8 +14,7 @@ namespace Bonsai.Osc.Net
         {
             var tcpClient = new TcpClient();
             tcpClient.NoDelay = NoDelay;
-            tcpClient.Connect(HostName, Port);
-            return new TcpTransport(tcpClient);
+            return new TcpClientTransport(tcpClient, HostName, Port);
         }
     }
 }

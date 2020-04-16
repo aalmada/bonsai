@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Bonsai.Design;
-using System.Windows.Forms;
-using System.Drawing;
 using OpenCV.Net;
-using Bonsai.Expressions;
-using Bonsai.Dag;
 using Bonsai;
 using Bonsai.Vision.Design;
 using Point = OpenCV.Net.Point;
 
-[assembly: TypeVisualizer(typeof(BinaryRegionExtremesMashupVisualizer), Target = typeof(VisualizerMashup<IplImageVisualizer, BinaryRegionExtremesVisualizer>))]
+[assembly: TypeVisualizer(typeof(BinaryRegionExtremesMashupVisualizer), Target = typeof(VisualizerMashup<ImageMashupVisualizer, BinaryRegionExtremesVisualizer>))]
 
 namespace Bonsai.Vision.Design
 {
     public class BinaryRegionExtremesMashupVisualizer : MashupTypeVisualizer
     {
-        IplImageVisualizer visualizer;
+        ImageMashupVisualizer visualizer;
 
         public override void Show(object value)
         {
@@ -30,7 +23,7 @@ namespace Bonsai.Vision.Design
 
         public override void Load(IServiceProvider provider)
         {
-            visualizer = (IplImageVisualizer)provider.GetService(typeof(DialogMashupVisualizer));
+            visualizer = (ImageMashupVisualizer)provider.GetService(typeof(DialogMashupVisualizer));
         }
 
         public override void Unload()

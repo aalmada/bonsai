@@ -8,7 +8,8 @@
     <PackageIconUrl>https://bonsai-rx.org/assets/images/bonsai.png</PackageIconUrl>
     <PackageOutputPath>..\bin\$(Configuration)</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">true</GenerateDocumentationFile>
+    <IncludeSymbols Condition="'$(Configuration)'=='Release'">true</IncludeSymbols>
+    <GenerateDocumentationFile Condition="'$(Configuration)'=='Release'">false</GenerateDocumentationFile>
     <LangVersion>8.0</LangVersion>
     <Features>strict</Features>
   </PropertyGroup>

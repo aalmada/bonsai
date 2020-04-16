@@ -6,14 +6,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bonsai.Scripting
 {
     [DefaultProperty("Expression")]
     [WorkflowElementCategory(ElementCategory.Sink)]
     [TypeDescriptionProvider(typeof(ExpressionSinkTypeDescriptionProvider))]
+    [Description("An expression script used to operate on individual values of the input sequence.")]
     public class ExpressionSink : SingleArgumentExpressionBuilder, IScriptingElement
     {
         static readonly MethodInfo doMethod = typeof(Observable).GetMethods()

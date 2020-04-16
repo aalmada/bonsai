@@ -1,11 +1,5 @@
 ﻿using Bonsai.Osc.Net;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bonsai.Osc
 {
@@ -37,6 +31,13 @@ namespace Bonsai.Osc
         {
             get { return configuration.NoDelay; }
             set { configuration.NoDelay = value; }
+        }
+
+        [Description("Enables or disables Network Address Translation (NAT) on the server instance.")]
+        public bool AllowNatTraversal
+        {
+            get { return configuration.AllowNatTraversal; }
+            set { configuration.AllowNatTraversal = value; }
         }
     }
 }

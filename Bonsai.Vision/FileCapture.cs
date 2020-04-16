@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenCV.Net;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -14,7 +12,6 @@ namespace Bonsai.Vision
     [DefaultProperty("FileName")]
     [WorkflowElementIcon(typeof(ElementCategory), "ElementIcon.Video")]
     [Description("Produces a sequence of images from the specified movie file.")]
-    [Editor("Bonsai.Vision.Design.FileCaptureEditor, Bonsai.Vision.Design", typeof(ComponentEditor))]
     public class FileCapture : Source<IplImage>
     {
         int? targetPosition;

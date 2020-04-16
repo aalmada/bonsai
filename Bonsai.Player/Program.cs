@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -33,7 +30,7 @@ namespace Bonsai.Player
             using (var reader = XmlReader.Create(fileName))
             {
                 var serializer = new XmlSerializer(typeof(WorkflowBuilder));
-                workflowBuilder = (WorkflowBuilder)serializer.Deserialize(reader);
+                workflowBuilder = (WorkflowBuilder)WorkflowBuilder.Serializer.Deserialize(reader);
             }
 
             var workflowCompleted = new ManualResetEvent(false);

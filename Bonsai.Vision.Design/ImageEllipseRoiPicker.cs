@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using OpenCV.Net;
 using System.Reactive.Linq;
 using System.Windows.Forms;
-using System.Reactive;
-using Bonsai.Vision.Design;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using Bonsai.Vision;
-using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL;
-using OpenTK;
 using Bonsai.Design;
 using System.Globalization;
 using System.Drawing.Text;
@@ -27,7 +20,6 @@ namespace Bonsai.Vision.Design
     {
         bool disposed;
         int? selectedRoi;
-        float scaleFactor = 1;
         const int FillOpacity = 85;
         const float LabelFontScale = 0.1f;
         const double ScaleIncrement = 0.1;
@@ -283,12 +275,6 @@ namespace Bonsai.Vision.Design
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             labelTexture = new IplImageTexture();
             base.OnLoad(e);
-        }
-
-        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
-        {
-            scaleFactor = factor.Width;
-            base.ScaleControl(factor, specified);
         }
 
         private void UpdateLabelTexture()

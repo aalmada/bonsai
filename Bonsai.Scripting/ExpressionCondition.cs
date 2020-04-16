@@ -6,14 +6,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bonsai.Scripting
 {
     [DefaultProperty("Expression")]
     [WorkflowElementCategory(ElementCategory.Condition)]
     [TypeDescriptionProvider(typeof(ExpressionConditionTypeDescriptionProvider))]
+    [Description("An expression script used to determine which values of the input sequence are accepted.")]
     public class ExpressionCondition : SingleArgumentExpressionBuilder, IScriptingElement
     {
         static readonly MethodInfo whereMethod = typeof(Observable).GetMethods()
